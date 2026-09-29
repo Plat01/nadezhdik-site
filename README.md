@@ -4,6 +4,8 @@
 новые собираются на [Astro](https://astro.build) из компонентов в стиле сайта. Заявки с форм принимает
 маленький Node-сервис и отправляет владельцу в Telegram и/или на почту.
 
+Опубликованная копия: **https://plat01.github.io/nadezhdik-site/** (GitHub Pages, обновляется при push в `main`).
+
 ## Быстрый старт
 
 Нужны Node 22+, [uv](https://docs.astral.sh/uv/) (для Python-скриптов) и один раз — браузер для скриншотов.
@@ -30,7 +32,8 @@ npm run dev                       # http://localhost:4321  (витрина ко�
 | `npm run psd -- --selftest` | проверка PSD-скрипта на сгенерированном файле |
 | `npm run export:tilda` | выгрузка страниц из Tilda API в `public/` (существующие не трогает) |
 | `npm run export:tilda -- --force --page 71702115` | перезаписать конкретную страницу (ID — в `docs/tilda-pages.json`) |
-| `git push origin main` | деплой на сервер через GitHub Actions (`docs/deploy.md`) |
+| `git push origin main` | публикация на GitHub Pages и деплой на сервер (если настроен) через GitHub Actions (`docs/deploy.md`) |
+| `node scripts/rebase-dist.mjs dist /nadezhdik-site` | переписать пути в `dist/` под подпуть (делает workflow Pages сам) |
 
 `check:visual` открывает локальный сайт (`npm run dev` или `preview` должен быть запущен) или любой URL.
 Флаги: `--widths 320,1200`, `--base http://localhost:4322`, `--name отчёт`, `--max 2` (код 1, если diff больше 2%).

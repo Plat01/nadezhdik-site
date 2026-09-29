@@ -11,6 +11,8 @@ export default defineConfig({
   site,
   trailingSlash: 'ignore',
   build: { format: 'directory' },
+  // Старый адрес главной из Tilda. На сервере nginx отдаёт 301, на GitHub Pages сработает эта HTML-переадресация.
+  redirects: { '/2': '/' },
   // В dev-режиме заявки с форм уходят в локальный server/lead-handler.mjs (npm run leads:dev).
   vite: { server: { proxy: { '/api': 'http://127.0.0.1:8787' } } },
   integrations: [

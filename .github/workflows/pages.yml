@@ -1,0 +1,51 @@
+name: GitHub Pages
+
+# Публикация сайта на GitHub Pages при каждом push в main.
+# Адрес: https://plat01.github.io/nadezhdik-site/ — сайт в подпути, поэтому после сборки
+# scripts/rebase-dist.mjs переписывает абсолютные пути. Если в Settings → Pages задать свой домен,
+# base_path станет пустым и пути останутся как есть.
+# Ограничение Pages: нет серверной части — /api/lead (приём заявок) здесь не работает.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - id: pages
+        uses: actions/configure-pages@v6
+      - run: npm ci
+      - run: npm run build
+        env:
+          PUBLIC_YM_ID: ${{ vars.PUBLIC_YM_ID }}
+      - run: node scripts/rebase-dist.mjs dist "${{ steps.pages.outputs.base_path }}"
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5
