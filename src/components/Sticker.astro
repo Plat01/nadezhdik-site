@@ -1,0 +1,54 @@
+---
+// Наклонная плашка — главный графический приём сайта («ПРИВЕТ», «Я НАДЕЖДИК», «АКАДЕМИЯ РАЗВИТИЯ…»).
+// tail — «хвостик» речевого пузыря снизу. Внутри можно выделять слова: <span class="accent">…</span>.
+interface Props {
+  bg?: 'cream' | 'orange' | 'ink' | 'blue';
+  color?: 'ink' | 'cream' | 'blue' | 'orange';
+  accent?: 'ink' | 'cream' | 'blue' | 'orange';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  tilt?: number;
+  tail?: 'left' | 'right';
+  as?: 'span' | 'p' | 'h1' | 'h2' | 'h3';
+  class?: string;
+}
+const { bg = 'cream', color = 'ink', accent = 'cream', size = 'md', tilt = -4, tail, as: Tag = 'span', class: className } = Astro.props;
+---
+<Tag
+  class:list={['sticker', `sticker--${size}`, tail && `sticker--tail-${tail}`, className]}
+  style={`--sticker-bg: var(--c-${bg}); --sticker-fg: var(--c-${color}); --sticker-accent: var(--c-${accent}); --sticker-tilt: ${tilt}deg;`}
+>
+  <slot />
+</Tag>
+
+<style>
+  .sticker {
+    position: relative;
+    display: inline-block;
+    width: fit-content;
+    margin: 0;
+    padding: 0.12em 0.35em 0.08em;
+    background: var(--sticker-bg);
+    color: var(--sticker-fg);
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: var(--lh-display);
+    text-transform: uppercase;
+    transform: rotate(var(--sticker-tilt));
+  }
+  .sticker :global(.accent) { color: var(--sticker-accent); }
+  .sticker--sm { font-size: var(--fs-h4); }
+  .sticker--md { font-size: var(--fs-h2); }
+  .sticker--lg { font-size: var(--fs-h1); }
+  .sticker--xl { font-size: var(--fs-hero); }
+  .sticker--tail-left::after,
+  .sticker--tail-right::after {
+    content: '';
+    position: absolute;
+    top: calc(100% - 1px);
+    width: 0.9em;
+    height: 0.55em;
+    background: var(--sticker-bg);
+  }
+  .sticker--tail-left::after { left: 0.9em; clip-path: polygon(0 0, 100% 0, 0 100%); }
+  .sticker--tail-right::after { right: 0.9em; clip-path: polygon(0 0, 100% 0, 100% 100%); }
+</style>

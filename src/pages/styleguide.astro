@@ -1,0 +1,124 @@
+---
+// Витрина дизайн-системы. Не индексируется и не попадает в sitemap.
+// Каждый блок ниже — готовый шаблон секции: копируйте разметку в новую страницу.
+import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
+import Heading from '../components/Heading.astro';
+import Sticker from '../components/Sticker.astro';
+import Button from '../components/Button.astro';
+import Card from '../components/Card.astro';
+import Grid from '../components/Grid.astro';
+import FeatureList from '../components/FeatureList.astro';
+import DocLink from '../components/DocLink.astro';
+import LeadForm from '../components/LeadForm.astro';
+
+const palette = [
+  ['--c-orange', '#ff532c'], ['--c-blue', '#0091cf'], ['--c-cream', '#e1e1c2'], ['--c-ink', '#2a2a2b'],
+  ['--c-orange-soft', '#ff8562'], ['--c-navy', '#20234e'], ['--c-yellow', '#f7c427'], ['--c-black', '#000'],
+];
+const img = (name: string) => `/tilda/img/${name}`;
+---
+<Base title="Дизайн-система" noindex>
+  <!-- 1. Hero: плашки-стикеры на фирменном фоне -->
+  <Section tone="orange" pad="lg">
+    <div class="hero">
+      <div class="hero__text">
+        <Sticker bg="cream" color="ink" size="lg" tail="right">Привет</Sticker>
+        <Sticker bg="cream" color="blue" size="xl" tail="left" as="h1">Я Надеждик</Sticker>
+        <div class="hero__strips">
+          <Sticker bg="orange" color="ink" accent="cream" size="md" tilt={-6}>Академия <span class="accent">развития</span></Sticker>
+          <Sticker bg="ink" color="cream" size="md" tilt={-6}>для детей от 2 до 17 лет</Sticker>
+        </div>
+      </div>
+      <img class="hero__image" src={img('tild6262-6532-4834-b333-656465626439__layer_8_1.png')} alt="Надеждик" />
+    </div>
+  </Section>
+
+  <!-- 2. Палитра и типографика -->
+  <Section tone="ink" pad="md">
+    <Heading as="h2" size="h1" upper>Палитра</Heading>
+    <ul class="swatches">
+      {palette.map(([name, hex]) => (
+        <li><span class="swatch" style={`background: var(${name})`}></span><code>{name}</code><small>{hex}</small></li>
+      ))}
+    </ul>
+    <Heading as="h2" size="h1" upper class="mt">Типографика</Heading>
+    <div class="type">
+      <Heading as="p" size="hero" upper>Hero 86</Heading>
+      <Heading as="p" size="h1" upper>H1 52 — Официальные документы</Heading>
+      <Heading as="p" size="h2">H2 36 — Креативный и инновационный</Heading>
+      <Heading as="p" size="h3">H3 31 — Академия футбола</Heading>
+      <Heading as="p" size="h4">H4 22 — Для детей от 2 до 11 лет</Heading>
+      <p class="lead-text">Lead 20 — Montserrat Alternates. Опыт разных школ в сочетании с накопленными знаниями тренерского штаба.</p>
+      <p>Body 16 — Футбол — самый популярный вид спорта в мире. Посредством развития футбола в нашем городе мы делаем его доступным.</p>
+    </div>
+  </Section>
+
+  <!-- 3. Кнопки и плашки -->
+  <Section tone="blue" pad="md">
+    <Heading as="h2" size="h1" upper>Кнопки и плашки</Heading>
+    <div class="row mt">
+      <Button href="#">Узнать больше</Button>
+      <Button href="#" variant="solid">Записаться</Button>
+      <Button href="#" variant="outline">Расписание</Button>
+    </div>
+    <div class="row mt">
+      <Sticker bg="cream" color="ink" size="sm">sm</Sticker>
+      <Sticker bg="orange" color="cream" size="md">md</Sticker>
+      <Sticker bg="ink" color="cream" size="lg" tail="left">lg + tail</Sticker>
+    </div>
+  </Section>
+
+  <!-- 4. Карточки направлений -->
+  <Section tone="blue" pad="md">
+    <Grid cols={2}>
+      <Card image={img('tild6636-6332-4437-b535-393330373635__03_1.png')} title="Академия футбола" subtitle="Для детей от 2 до 11 лет" href="#">
+        Опыт разных школ в сочетании с накопленными знаниями тренерского штаба делают методологию обучения в нашей Академии действительно уникальной.
+      </Card>
+      <Card image={img('tild6366-3761-4933-b663-346634333465__photo.jpg')} title="ФК Надеждик Юниор" subtitle="Для детей от 12 до 17 лет" href="#">
+        Футбол — самый популярный вид спорта в мире. Посредством развития футбола в нашем городе мы делаем его доступным.
+      </Card>
+    </Grid>
+  </Section>
+
+  <!-- 5. Лента-заголовок + преимущества -->
+  <Section tone="orange" pad="sm">
+    <Heading as="h2" size="h1" upper align="center">Инновационный, лицензированный, креативный</Heading>
+  </Section>
+  <Section tone="ink" pad="md">
+    <FeatureList items={[
+      { title: 'Креативный и инновационный', points: ['Английский язык. Познание с применением нейрометодик', 'Футбол. Тренерский штаб состоит из действующих игроков'] },
+      { title: 'Лицензированный', points: ['Спортивная лицензия', 'Образовательная лицензия'] },
+    ]} />
+  </Section>
+
+  <!-- 6. Документы + форма заявки (временная) -->
+  <Section tone="orange" pad="md" id="docs">
+    <Heading as="h2" size="h1" upper align="center">Официальные документы</Heading>
+    <div class="mt">
+      <Grid cols={2} gap="md">
+        <DocLink href="#" label="ООО" />
+        <DocLink href="#" label="АНО" />
+      </Grid>
+    </div>
+  </Section>
+  <Section tone="orange" pad="md">
+    <LeadForm />
+  </Section>
+</Base>
+
+<style>
+  .hero { display: grid; gap: var(--space-4); align-items: center; }
+  .hero__text { display: grid; gap: var(--space-3); justify-items: start; }
+  .hero__strips { display: grid; gap: var(--space-1); margin-top: var(--space-3); }
+  .hero__image { width: min(100%, 420px); justify-self: center; }
+  @media (min-width: 960px) { .hero { grid-template-columns: 1.4fr 1fr; } }
+
+  .swatches { list-style: none; padding: 0; margin: var(--space-3) 0 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: var(--space-3); }
+  .swatches li { display: grid; gap: 4px; }
+  .swatch { display: block; height: 80px; border: 1px solid color-mix(in srgb, var(--c-cream) 30%, transparent); }
+  .type { display: grid; gap: var(--space-2); margin-top: var(--space-3); }
+  .lead-text { font-size: var(--fs-lead); }
+  .row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-4); }
+  :global(.mt) { margin-top: var(--space-4); }
+</style>

@@ -1,0 +1,30 @@
+---
+// Заголовок шрифтом Impact. Размер задаётся отдельно от уровня, чтобы не ломать структуру h1–h4.
+interface Props {
+  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'p';
+  size?: 'hero' | 'h1' | 'h2' | 'h3' | 'h4';
+  tone?: 'cream' | 'ink' | 'orange' | 'blue' | 'inherit';
+  upper?: boolean;
+  align?: 'start' | 'center';
+  class?: string;
+}
+const { as: Tag = 'h2', size = 'h2', tone = 'inherit', upper = false, align = 'start', class: className } = Astro.props;
+---
+<Tag class:list={['heading', `heading--${size}`, `tone-${tone}`, { 'heading--upper': upper, 'heading--center': align === 'center' }, className]}>
+  <slot />
+</Tag>
+
+<style>
+  .heading { font-family: var(--font-display); font-weight: 400; line-height: var(--lh-heading); margin: 0; overflow-wrap: break-word; hyphens: auto; }
+  .heading--hero { font-size: var(--fs-hero); line-height: var(--lh-display); }
+  .heading--h1 { font-size: var(--fs-h1); line-height: var(--lh-display); }
+  .heading--h2 { font-size: var(--fs-h2); }
+  .heading--h3 { font-size: var(--fs-h3); }
+  .heading--h4 { font-size: var(--fs-h4); }
+  .heading--upper { text-transform: uppercase; }
+  .heading--center { text-align: center; }
+  .tone-cream { color: var(--c-cream); }
+  .tone-ink { color: var(--c-ink); }
+  .tone-orange { color: var(--c-orange); }
+  .tone-blue { color: var(--c-blue); }
+</style>

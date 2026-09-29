@@ -1,0 +1,24 @@
+---
+// Полноширинная секция с фирменным фоном и контейнером 1160px.
+interface Props {
+  tone?: 'orange' | 'blue' | 'ink' | 'cream';
+  pad?: 'none' | 'sm' | 'md' | 'lg';
+  id?: string;
+  class?: string;
+}
+const { tone = 'blue', pad = 'md', id, class: className } = Astro.props;
+---
+<section id={id} class:list={['section', `section--${tone}`, `section--pad-${pad}`, className]}>
+  <div class="container"><slot /></div>
+</section>
+
+<style>
+  .section { background: var(--section-bg); color: var(--section-fg, var(--c-cream)); }
+  .section--orange { --section-bg: var(--c-orange); }
+  .section--blue { --section-bg: var(--c-blue); }
+  .section--ink { --section-bg: var(--c-ink); }
+  .section--cream { --section-bg: var(--c-cream); --section-fg: var(--c-ink); }
+  .section--pad-sm { padding-block: var(--space-4); }
+  .section--pad-md { padding-block: var(--space-5); }
+  .section--pad-lg { padding-block: var(--space-6); }
+</style>

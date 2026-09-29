@@ -48,6 +48,7 @@ async function shoot(browser, url, width, file, log) {
   await page.goto(url, { waitUntil: 'networkidle', timeout: 60000 });
   // Прокрутка до низа, чтобы сработали lazyload и анимации появления Tilda.
   await page.evaluate(async () => {
+    document.querySelectorAll('img[loading="lazy"]').forEach((img) => (img.loading = 'eager'));
     for (let y = 0; y < document.body.scrollHeight; y += 400) {
       window.scrollTo(0, y);
       await new Promise((r) => setTimeout(r, 60));
@@ -58,6 +59,7 @@ async function shoot(browser, url, width, file, log) {
   // для стабильного снимка переводим все такие элементы в конечное состояние.
   await page.waitForTimeout(1000);
   await page.evaluate(() => document.querySelectorAll('.t-animate').forEach((el) => el.classList.add('t-animate_started')));
+  await page.waitForFunction(() => [...document.images].every((img) => img.complete), null, { timeout: 15000 }).catch(() => {});
   await page.waitForTimeout(1200);
   await page.screenshot({ path: file, fullPage: true, animations: 'disabled' });
   await page.close();

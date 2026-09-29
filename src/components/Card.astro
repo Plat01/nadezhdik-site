@@ -1,0 +1,33 @@
+---
+// Карточка направления, как на главной: фото, заголовок, подзаголовок, линия, текст, кнопка.
+import Button from './Button.astro';
+
+interface Props {
+  image: string;
+  alt?: string;
+  title: string;
+  subtitle?: string;
+  href?: string;
+  cta?: string;
+  external?: boolean;
+}
+const { image, alt = '', title, subtitle, href, cta = 'Узнать больше', external = false } = Astro.props;
+---
+<article class="card">
+  <img class="card__image" src={image} alt={alt} loading="lazy" decoding="async" />
+  <h3 class="card__title">{title}</h3>
+  {subtitle && <p class="card__subtitle">{subtitle}</p>}
+  <div class="card__text"><slot /></div>
+  {href && <Button href={href} external={external} class="card__cta">{cta}</Button>}
+</article>
+
+<style>
+  .card { display: flex; flex-direction: column; gap: var(--space-2); }
+  .card__image { width: 100%; aspect-ratio: 1; object-fit: cover; margin-bottom: var(--space-2); }
+  .card__title,
+  .card__subtitle { margin: 0; font-family: var(--font-display); font-size: var(--fs-h3); line-height: var(--lh-heading); font-weight: 400; }
+  .card__title { color: var(--c-cream); }
+  .card__subtitle { color: var(--c-ink); padding-bottom: var(--space-3); border-bottom: var(--rule); }
+  .card__text { font-size: var(--fs-body); }
+  .card :global(.card__cta) { align-self: flex-start; margin-top: var(--space-2); }
+</style>

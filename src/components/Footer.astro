@@ -1,0 +1,63 @@
+---
+// Подвал как на главной: оранжевое полотно с надписью НАДЕЖДИК и «хвостиком» пузыря, голубая полоса с маскотом и телефоном.
+import { site } from '../data/site';
+
+const year = new Date().getFullYear();
+---
+<footer class="footer">
+  <div class="footer__top">
+    <div class="container">
+      <slot />
+      <img class="footer__wordmark" src="/brand/wordmark.svg" alt={site.name} width="1730" height="631" loading="lazy" />
+    </div>
+  </div>
+  <div class="footer__bottom container">
+    <a class="footer__credit" href={site.credit.href} target="_blank" rel="noopener">
+      <img src={site.credit.image} alt={site.credit.label} loading="lazy" />
+    </a>
+    <p class="footer__legal">© {year} {site.legal}</p>
+    <img class="footer__mascot" src="/brand/mascot.svg" alt="" width="346" height="343" loading="lazy" />
+    <a class="footer__phone" href={site.phone.href}>{site.phone.label}</a>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    --slope: clamp(60px, 14vw, 200px); /* высота диагонали между оранжевой и голубой частью */
+    background: var(--c-blue);
+    color: var(--c-cream);
+    font-family: var(--font-display);
+  }
+  .footer__top {
+    background: var(--c-orange);
+    padding-top: var(--space-5);
+    padding-bottom: calc(var(--slope) + var(--space-2));
+    clip-path: polygon(
+      0 0, 100% 0,
+      100% calc(100% - var(--slope)),
+      44% calc(100% - var(--slope) * 0.45),
+      34% 100%,
+      34% calc(100% - var(--slope) * 0.47),
+      0 calc(100% - var(--slope) * 0.2)
+    );
+  }
+  .footer__wordmark { width: 100%; margin-top: var(--space-4); }
+  .footer__bottom {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: var(--space-3);
+    padding-block: var(--space-4) var(--space-5);
+    text-align: center;
+  }
+  .footer__credit { position: absolute; top: calc(var(--slope) * -0.55); right: 0; width: clamp(180px, 34vw, 410px); transform: rotate(-8deg); }
+  .footer__legal { margin: 0; font-size: var(--fs-body); order: 3; }
+  .footer__mascot { width: clamp(140px, 20vw, 240px); margin-top: var(--space-4); }
+  .footer__phone { font-size: var(--fs-h2); text-decoration: none; white-space: nowrap; }
+  @media (min-width: 960px) {
+    .footer__bottom { grid-template-columns: 1fr auto 1fr; align-items: end; text-align: start; }
+    .footer__legal { order: 0; justify-self: start; font-size: var(--fs-h4); }
+    .footer__phone { justify-self: end; }
+  }
+</style>

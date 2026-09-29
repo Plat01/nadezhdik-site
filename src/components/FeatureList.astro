@@ -1,0 +1,48 @@
+---
+// Список преимуществ на тёмном фоне: оранжевая точка, заголовок слева, пункты справа (блок «Креативный и инновационный»).
+interface Props {
+  items: { title: string; points: string[] }[];
+}
+const { items } = Astro.props;
+---
+<ul class="features">
+  {items.map((item) => (
+    <li class="features__row">
+      <h3 class="features__title">{item.title}</h3>
+      <ul class="features__points">
+        {item.points.map((point) => <li>{point}</li>)}
+      </ul>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .features { list-style: none; margin: 0; padding: 0; }
+  .features__row {
+    display: grid;
+    gap: var(--space-3);
+    padding-block: var(--space-4);
+  }
+  .features__row + .features__row { border-top: var(--rule); }
+  .features__title {
+    position: relative;
+    padding-left: 45px;
+    font-size: var(--fs-h2);
+    color: var(--c-cream);
+  }
+  .features__title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.2em;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: var(--c-orange);
+  }
+  .features__points { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.1em; font-size: var(--fs-body); }
+  @media (min-width: 960px) {
+    .features__row { grid-template-columns: 1fr 1fr; gap: 40px; }
+    .features__points { padding-left: 56px; }
+  }
+</style>

@@ -1,0 +1,22 @@
+---
+// Адаптивная сетка карточек: 1 колонка на мобильных, cols — начиная с 640px (3 колонки — с 960px).
+interface Props {
+  cols?: 2 | 3 | 4;
+  gap?: 'md' | 'lg';
+}
+const { cols = 2, gap = 'lg' } = Astro.props;
+---
+<div class:list={['grid', `grid--${cols}`, `grid--gap-${gap}`]}><slot /></div>
+
+<style>
+  .grid { display: grid; grid-template-columns: 1fr; }
+  .grid--gap-md { gap: var(--space-3); }
+  .grid--gap-lg { gap: var(--space-5) 40px; }
+  @media (min-width: 640px) {
+    .grid--2, .grid--3, .grid--4 { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 960px) {
+    .grid--3 { grid-template-columns: repeat(3, 1fr); }
+    .grid--4 { grid-template-columns: repeat(4, 1fr); }
+  }
+</style>

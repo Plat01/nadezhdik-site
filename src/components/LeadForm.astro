@@ -1,0 +1,83 @@
+---
+// ВРЕМЕННЫЙ блок заявки: рабочая форма на /api/lead (server/lead-handler.mjs) до получения нового дизайна.
+// Поля и JSON-контракт: { name, phone, message, page, website(honeypot) } → 200 { ok: true }.
+import Button from './Button.astro';
+
+interface Props {
+  title?: string;
+  endpoint?: string;
+}
+const { title = 'Задайте нам вопрос', endpoint = '/api/lead' } = Astro.props;
+---
+<form class="lead" action={endpoint} method="post" data-lead-form novalidate>
+  <h2 class="lead__title">{title}</h2>
+  <div class="lead__fields">
+    <label class="lead__field"><span class="visually-hidden">Имя</span>
+      <input name="name" type="text" autocomplete="name" placeholder="Имя" required maxlength="100" />
+    </label>
+    <label class="lead__field"><span class="visually-hidden">Телефон</span>
+      <input name="phone" type="tel" autocomplete="tel" placeholder="Телефон" required maxlength="30" pattern="[\d\s()+\-]{7,}" />
+    </label>
+    <label class="lead__field lead__field--wide"><span class="visually-hidden">Вопрос</span>
+      <textarea name="message" rows="4" placeholder="Ваш вопрос" maxlength="2000"></textarea>
+    </label>
+    <label class="lead__hp" aria-hidden="true">Сайт <input name="website" type="text" tabindex="-1" autocomplete="off" /></label>
+  </div>
+  <p class="lead__consent">Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</p>
+  <Button type="submit">Отправить</Button>
+  <p class="lead__status" role="status" aria-live="polite"></p>
+</form>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('form[data-lead-form]').forEach((form) => {
+    const status = form.querySelector<HTMLElement>('.lead__status')!;
+    const submit = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+      const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
+      submit.disabled = true;
+      status.textContent = 'Отправляем…';
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...data, page: location.pathname }),
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        form.reset();
+        status.textContent = 'Спасибо! Мы свяжемся с вами в ближайшее время.';
+      } catch {
+        status.textContent = 'Не получилось отправить. Позвоните нам или попробуйте ещё раз.';
+      } finally {
+        submit.disabled = false;
+      }
+    });
+  });
+</script>
+
+<style>
+  .lead { display: grid; gap: var(--space-3); max-width: 920px; margin-inline: auto; }
+  .lead__title { font-size: var(--fs-h1); text-transform: uppercase; text-align: center; }
+  .lead__fields { display: grid; gap: var(--space-3); }
+  .lead__field input,
+  .lead__field textarea {
+    width: 100%;
+    min-height: 54px;
+    padding: 14px 24px;
+    border: 0;
+    border-radius: var(--radius-input);
+    background: var(--c-cream);
+    color: var(--c-ink);
+    font: 500 var(--fs-lead) / 1.4 var(--font-text);
+  }
+  .lead__field textarea { resize: vertical; }
+  .lead__hp { position: absolute; left: -9999px; }
+  .lead__consent { font-size: var(--fs-small); opacity: 0.85; margin: 0; }
+  .lead :global(.button) { justify-self: start; }
+  .lead__status { min-height: 1.5em; margin: 0; }
+  @media (min-width: 640px) {
+    .lead__fields { grid-template-columns: 1fr 1fr; column-gap: 40px; }
+    .lead__field--wide { grid-column: 1 / -1; }
+  }
+</style>

@@ -1,0 +1,47 @@
+---
+// Кнопка/ссылка. sticker — тёмная наклонная плашка «УЗНАТЬ БОЛЬШЕ» как на главной.
+interface Props {
+  href?: string;
+  type?: 'button' | 'submit';
+  variant?: 'sticker' | 'solid' | 'outline';
+  external?: boolean;
+  class?: string;
+  [key: string]: unknown;
+}
+const { href, type = 'button', variant = 'sticker', external = false, class: className, ...rest } = Astro.props;
+const classes = ['button', `button--${variant}`, className];
+---
+{href ? (
+  <a href={href} class:list={classes} target={external ? '_blank' : undefined} rel={external ? 'noopener' : undefined} {...rest}>
+    <slot />
+  </a>
+) : (
+  <button type={type} class:list={classes} {...rest}>
+    <slot />
+  </button>
+)}
+
+<style>
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4em;
+    padding: 0.35em 0.6em 0.25em;
+    border: 0;
+    font-family: var(--font-display);
+    font-size: var(--fs-h4);
+    line-height: 1;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+  }
+  .button--sticker { background: var(--c-ink); color: var(--c-cream); transform: rotate(var(--tilt)); }
+  .button--sticker:hover { transform: rotate(0deg) scale(1.04); }
+  .button--solid { background: var(--c-orange); color: var(--c-cream); padding: 0.6em 1.2em 0.5em; }
+  .button--solid:hover { background: var(--c-ink); }
+  .button--outline { background: transparent; color: currentColor; box-shadow: inset 0 0 0 2px currentColor; padding: 0.6em 1.2em 0.5em; }
+  .button--outline:hover { background: var(--c-cream); color: var(--c-ink); box-shadow: none; }
+  .button:disabled { opacity: 0.6; cursor: progress; }
+</style>

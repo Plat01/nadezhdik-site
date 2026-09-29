@@ -1,0 +1,51 @@
+---
+// Базовый layout новых страниц: <head> с SEO/OG, шрифты, Метрика, шапка и подвал.
+import '../styles/base.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../data/site';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  noindex?: boolean;
+  headerTone?: 'orange' | 'blue' | 'ink';
+}
+const { title, description = site.description, image = '/brand/mascot.svg', noindex = false, headerTone = 'orange' } = Astro.props;
+const fullTitle = title === site.name ? title : `${title} — ${site.name}`;
+const canonical = new URL(Astro.url.pathname, site.url).href;
+const ymId = import.meta.env.PUBLIC_YM_ID;
+---
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(image, site.url).href} />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="icon" type="image/svg+xml" href="/brand/logo-mark.svg" />
+    <link rel="preload" href="/fonts/impact.woff" as="font" type="font/woff" crossorigin />
+    <link rel="preload" href="/fonts/montserrat-alternates-500.woff" as="font" type="font/woff" crossorigin />
+    {ymId && (
+      <script is:inline define:vars={{ ymId }}>
+        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window,document,'script','https://mc.yandex.ru/metrika/tag.js','ym');
+        ym(Number(ymId), 'init', { clickmap: true, trackLinks: true, accurateTrackBounce: true, webvisor: true });
+      </script>
+    )}
+  </head>
+  <body>
+    <Header tone={headerTone} />
+    <main><slot /></main>
+    <Footer><slot name="footer" /></Footer>
+  </body>
+</html>

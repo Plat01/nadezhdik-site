@@ -1,0 +1,18 @@
+---
+// Ссылка на документ с иконкой папки (блок «Официальные документы»).
+interface Props {
+  href: string;
+  label: string;
+}
+const { href, label } = Astro.props;
+---
+<a class="doc" href={href} target="_blank" rel="noopener">
+  <img src="/brand/folder.svg" alt="" width="140" height="111" />
+  <span>{label}</span>
+</a>
+
+<style>
+  .doc { display: inline-flex; align-items: center; gap: 20px; color: var(--c-cream); text-decoration: none; font-family: var(--font-display); font-size: var(--fs-h4); }
+  .doc img { width: 140px; transition: transform 0.2s ease; }
+  .doc:hover img { transform: rotate(var(--tilt)); }
+</style>
