@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run build:*)",
+      "Bash(npm run check:visual:*)",
+      "Bash(npm run psd:*)",
+      "Bash(npm run dev:*)",
+      "Bash(npm run preview:*)",
+      "Bash(npm run leads:dev:*)",
+      "Bash(npx astro:*)",
+      "Bash(node scripts/visual-check.mjs:*)",
+      "Bash(uv run scripts/psd_extract.py:*)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)"
+    ]
+  }
+}
