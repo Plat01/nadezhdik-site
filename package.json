@@ -1,0 +1,27 @@
+{
+  "name": "nadezhdik-site",
+  "private": true,
+  "type": "module",
+  "version": "0.1.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "export:tilda": "uv run scripts/tilda_export.py",
+    "psd": "uv run scripts/psd_extract.py",
+    "check:visual": "node scripts/visual-check.mjs",
+    "leads:dev": "DRY_RUN=1 node server/lead-handler.mjs"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "astro": "^7.3.5"
+  },
+  "devDependencies": {
+    "pixelmatch": "^7.2.0",
+    "playwright": "^1.63.0",
+    "pngjs": "^7.0.0"
+  }
+}

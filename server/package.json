@@ -1,0 +1,14 @@
+{
+  "name": "nadezhdik-lead-handler",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node lead-handler.mjs"
+  },
+  "dependencies": {
+    "nodemailer": "^10.0.12"
+  }
+}

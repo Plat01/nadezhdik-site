@@ -1,0 +1,47 @@
+{
+  "project_id": "9817273",
+  "domain": "nadezhdik.ru",
+  "index_page_id": "70057135",
+  "pages": [
+    {
+      "id": "70057135",
+      "title": "Надеждик",
+      "alias": "2",
+      "route": "/",
+      "descr": "",
+      "published": "1790704864"
+    },
+    {
+      "id": "71702041",
+      "title": "English",
+      "alias": "english",
+      "route": "/english/",
+      "descr": "",
+      "published": "1790692522"
+    },
+    {
+      "id": "71702083",
+      "title": "Dance",
+      "alias": "dance",
+      "route": "/dance/",
+      "descr": "",
+      "published": "1756226052"
+    },
+    {
+      "id": "71702115",
+      "title": "School",
+      "alias": "school",
+      "route": "/school/",
+      "descr": "",
+      "published": "1756226053"
+    },
+    {
+      "id": "71702129",
+      "title": "Football",
+      "alias": "football",
+      "route": "/football/",
+      "descr": "",
+      "published": "1756226053"
+    }
+  ]
+}
