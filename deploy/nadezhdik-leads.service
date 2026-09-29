@@ -1,0 +1,23 @@
+# /etc/systemd/system/nadezhdik-leads.service — см. docs/deploy.md
+[Unit]
+Description=Nadezhdik lead handler (POST /api/lead)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=deploy
+WorkingDirectory=/var/www/nadezhdik/server
+# Токены Telegram/SMTP — только на сервере, в этом файле (chmod 600, владелец deploy)
+EnvironmentFile=/etc/nadezhdik/leads.env
+Environment=NODE_ENV=production PORT=8787 HOST=127.0.0.1
+ExecStart=/usr/bin/node lead-handler.mjs
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

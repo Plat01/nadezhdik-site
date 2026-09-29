@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
+import Sticker from '../components/Sticker.astro';
+import Button from '../components/Button.astro';
+---
+<Base title="Страница не найдена" noindex>
+  <Section tone="orange" pad="lg">
+    <div class="not-found">
+      <Sticker bg="cream" color="ink" size="lg" tail="right">Ой!</Sticker>
+      <Sticker bg="cream" color="blue" size="xl" tail="left" as="h1">404</Sticker>
+      <p>Такой страницы нет. Возможно, её переместили.</p>
+      <Button href="/">На главную</Button>
+    </div>
+  </Section>
+</Base>
+
+<style>
+  .not-found { display: grid; justify-items: start; gap: var(--space-4); font-size: var(--fs-lead); }
+</style>

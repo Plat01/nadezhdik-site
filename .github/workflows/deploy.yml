@@ -1,0 +1,80 @@
+name: Build and deploy
+
+# Сборка — на каждый push и PR. Деплой — только из main и только если в репозитории
+# задана переменная DEPLOY_HOST (Settings → Secrets and variables → Actions → Variables).
+# Настройка сервера и список секретов: docs/deploy.md.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+        env:
+          PUBLIC_YM_ID: ${{ vars.PUBLIC_YM_ID }}
+      - uses: actions/upload-artifact@v7
+        with:
+          name: dist
+          path: dist
+          retention-days: 7
+
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && vars.DEPLOY_HOST != ''
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      HOST: ${{ vars.DEPLOY_HOST }}
+      USER: ${{ vars.DEPLOY_USER || 'deploy' }}
+      DEPLOY_PATH: ${{ vars.DEPLOY_PATH || '/var/www/nadezhdik' }}
+      SITE_URL: ${{ vars.SITE_URL || 'https://nadezhdik.ru' }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: dist
+
+      - name: Configure SSH
+        env:
+          SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/id_deploy && chmod 600 ~/.ssh/id_deploy
+          if [ -n "$KNOWN_HOSTS" ]; then
+            printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          else
+            echo "::warning::DEPLOY_KNOWN_HOSTS не задан — ключ сервера берётся через ssh-keyscan"
+            ssh-keyscan -H "$HOST" > ~/.ssh/known_hosts
+          fi
+          printf 'Host target\n  HostName %s\n  User %s\n  IdentityFile ~/.ssh/id_deploy\n' "$HOST" "$USER" > ~/.ssh/config
+
+      - name: Upload site
+        run: rsync -az --delete dist/ "target:$DEPLOY_PATH/site/"
+
+      - name: Upload lead handler and restart
+        run: |
+          rsync -az --delete --exclude node_modules server/ "target:$DEPLOY_PATH/server/"
+          ssh target "cd '$DEPLOY_PATH/server' && npm ci --omit=dev --no-audit --no-fund && sudo systemctl restart nadezhdik-leads"
+
+      - name: Smoke test
+        run: |
+          sleep 3
+          curl -fsS -o /dev/null -w "site %{http_code}\n" "$SITE_URL/"
+          curl -fsS "$SITE_URL/api/health"
