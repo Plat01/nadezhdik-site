@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /styleguide/
+Disallow: /api/
+
+Sitemap: https://nadezhdik.ru/sitemap-index.xml

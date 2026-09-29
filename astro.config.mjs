@@ -10,6 +10,8 @@ export default defineConfig({
   site,
   trailingSlash: 'ignore',
   build: { format: 'directory' },
+  // В dev-режиме заявки с форм уходят в локальный server/lead-handler.mjs (npm run leads:dev).
+  vite: { server: { proxy: { '/api': 'http://127.0.0.1:8787' } } },
   integrations: [
     sitemap({
       customPages: legacyPages,
