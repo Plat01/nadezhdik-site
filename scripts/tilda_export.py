@@ -28,6 +28,8 @@ PUBLIC = ROOT / "public"
 ASSETS = PUBLIC / "tilda"
 MANIFEST = ROOT / "docs" / "tilda-pages.json"
 API = "https://api.tildacdn.info/v1/"
+# Страницы, пересобранные на Astro (src/pages/<alias>.astro): не выгружаем, иначе public/ перекроет маршрут.
+REBUILT = {"english"}
 
 # Любой файл с CDN Tilda (static/thb/optim, любая доменная зона).
 CDN_URL = re.compile(r"https?://(?:static|thb|optim)\.tildacdn\.[a-z]+/[^\s\"'()<>\\]+")
@@ -169,6 +171,9 @@ def main() -> int:
         route = "/" if target.parent == PUBLIC else f"/{info['alias']}/"
         manifest.append({"id": info["id"], "title": info["title"], "alias": info["alias"], "route": route,
                          "descr": info.get("descr", ""), "published": info.get("published", "")})
+        if info["alias"] in REBUILT:
+            print(f"= {route} пересобрана в src/pages/, пропускаю")
+            continue
         if target.exists() and not args.force:
             print(f"= {route} уже есть, пропускаю (--force для перезаписи)")
             continue

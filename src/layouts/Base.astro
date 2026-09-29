@@ -1,7 +1,7 @@
 ---
 // Базовый layout новых страниц: <head> с SEO/OG, шрифты, Метрика, шапка и подвал.
 import '../styles/base.css';
-import Header from '../components/Header.astro';
+import Header, { type HeaderLogo } from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { site } from '../data/site';
 
@@ -10,9 +10,24 @@ interface Props {
   description?: string;
   image?: string;
   noindex?: boolean;
-  headerTone?: 'orange' | 'blue' | 'ink';
+  headerTone?: 'orange' | 'blue' | 'ink' | 'navy';
+  headerLogo?: HeaderLogo;
+  headerWide?: boolean;
+  footer?: 'full' | 'short';
+  /** Шрифт, который нужен странице с первого экрана (например, /fonts/sigmar-400.woff2). */
+  preloadFont?: string;
 }
-const { title, description = site.description, image = '/brand/mascot.svg', noindex = false, headerTone = 'orange' } = Astro.props;
+const {
+  title,
+  description = site.description,
+  image = '/brand/mascot.svg',
+  noindex = false,
+  headerTone = 'orange',
+  headerLogo,
+  headerWide = false,
+  footer = 'full',
+  preloadFont,
+} = Astro.props;
 const fullTitle = title === site.name ? title : `${title} — ${site.name}`;
 const canonical = new URL(Astro.url.pathname, site.url).href;
 const ymId = import.meta.env.PUBLIC_YM_ID;
@@ -36,6 +51,7 @@ const ymId = import.meta.env.PUBLIC_YM_ID;
     <link rel="icon" type="image/svg+xml" href="/brand/logo-mark.svg" />
     <link rel="preload" href="/fonts/impact.woff" as="font" type="font/woff" crossorigin />
     <link rel="preload" href="/fonts/montserrat-alternates-500.woff" as="font" type="font/woff" crossorigin />
+    {preloadFont && <link rel="preload" href={preloadFont} as="font" type="font/woff2" crossorigin />}
     {ymId && (
       <script is:inline define:vars={{ ymId }}>
         (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window,document,'script','https://mc.yandex.ru/metrika/tag.js','ym');
@@ -44,8 +60,8 @@ const ymId = import.meta.env.PUBLIC_YM_ID;
     )}
   </head>
   <body>
-    <Header tone={headerTone} />
+    <Header tone={headerTone} logo={headerLogo} wide={headerWide} />
     <main><slot /></main>
-    <Footer><slot name="footer" /></Footer>
+    <Footer variant={footer}><slot name="footer" /></Footer>
   </body>
 </html>

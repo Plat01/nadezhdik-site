@@ -62,7 +62,7 @@ src/pages/            новые страницы (.astro), /styleguide, 404
 src/components/       компоненты дизайн-системы
 src/styles/tokens.css цвета, шрифты, кегли, отступы
 src/data/site.ts      телефон, соцсети, меню
-public/               старые страницы из Tilda (index.html, english/, school/, …) и их ресурсы (tilda/)
+public/               старые страницы из Tilda (index.html, school/, …) и их ресурсы (tilda/)
 public/brand, fonts   логотип, маскот, иконки, шрифты для новых страниц
 server/               сервис заявок POST /api/lead → Telegram / SMTP
 scripts/              экспорт Tilda, разбор PSD, визуальная проверка

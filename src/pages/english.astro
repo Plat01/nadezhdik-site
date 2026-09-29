@@ -1,0 +1,124 @@
+---
+// English N club — лендинг школы английского по макету design/mockups/English page.psd (ширина 1900).
+// На десктопе (960+) композиция масштабируется от ширины страницы: координаты макета переведены в cqw (px / 19).
+import Base from '../layouts/Base.astro';
+
+const img = (name: string) => `/images/english/${name}`;
+---
+<Base
+  title="English N club — школа английского языка"
+  description="English N club — школа английского языка для детей в академии «Надеждик»: игра, рисование, пение и современные методики."
+  image={img('mascot-eng.webp')}
+  headerTone="navy"
+  headerLogo={{ src: img('english-n-club-logo.webp'), alt: 'English N club', width: 565, height: 184 }}
+  headerWide
+  footer="short"
+  preloadFont="/fonts/sigmar-400.woff2"
+>
+  <div class="en" lang="en">
+    <section class="hero">
+      <div class="container container--wide hero__head">
+        <h1 class="hero__title">Only children<br /> believe they can<br /> do everything</h1>
+        <img class="hero__n" src={img('mascot-climbing-n.webp')} alt="Надеждик поднимается по букве N к звезде" width="676" height="911" />
+      </div>
+      <img class="hero__boy" src={img('student-boy.webp')} alt="Ученик English N club в школьной форме" width="1038" height="1582" />
+      <div class="container container--wide hero__copy">
+        <p>Learning English opens a world of possibilities for every child.</p>
+        <p class="hero__accent">At English N club, children explore the language through play, drawing, singing and modern learning activities.</p>
+      </div>
+    </section>
+
+    <section class="note" aria-labelledby="en-welcome">
+      <div class="note__box">
+        <img class="note__image" src={img('mascot-notebook.webp')} alt="Надеждик держит блокнот и карандаш-Биг-Бен" width="1600" height="1646" loading="lazy" />
+        <h2 class="visually-hidden" id="en-welcome">Welcome dear friend :)</h2>
+        <!-- Надпись в PSD изогнута деформацией «Дуга» с перспективой — CSS так не умеет, поэтому картинка из слоя макета. -->
+        <img class="note__title" src={img('welcome-dear-friend.webp')} alt="" width="576" height="417" loading="lazy" />
+      </div>
+    </section>
+
+    <section class="sky">
+      <p>English comes alive through play, creativity and discovery — with activities made for every age.</p>
+    </section>
+
+    <section class="eng">
+      <img src={img('mascot-eng.webp')} alt="Надеждик с учебником английского сидит на объёмной надписи Eng" width="1428" height="1421" loading="lazy" />
+    </section>
+  </div>
+</Base>
+
+<style>
+  .en {
+    container-type: inline-size;
+    overflow: clip;
+    background: var(--c-navy);
+    color: var(--c-white);
+  }
+
+  /* Hero. На мобильных мальчик идёт после N и заходит под текст, как на макете. */
+  .hero { position: relative; padding-bottom: var(--space-5); }
+  .hero__head { position: relative; z-index: 1; display: grid; }
+  .hero__title {
+    padding-top: var(--space-4);
+    font-family: var(--font-accent);
+    font-size: var(--fs-h1);
+    line-height: var(--lh-display);
+    text-transform: uppercase;
+    color: var(--c-red);
+  }
+  .hero__n { justify-self: end; width: 72%; margin: var(--space-3) -6% 0 0; }
+  .hero__boy { width: 92%; margin: -30% 0 0 -22%; }
+  .hero__copy {
+    position: relative;
+    z-index: 1;
+    margin-top: -24%;
+    font-family: var(--font-accent);
+    font-size: var(--fs-h3);
+    line-height: var(--lh-display);
+    text-transform: uppercase;
+  }
+  .hero__copy p { margin-bottom: 1em; }
+  .hero__accent { color: var(--c-red); }
+
+  /* Блокнот: надпись лежит на листе, координаты — доли картинки */
+  .note__box { position: relative; width: 130%; margin-left: -17%; }
+  .note__image { width: 100%; }
+  .note__title { position: absolute; left: 35.63%; top: 19.23%; width: 30.32%; } /* 677, 376, 576 px на слое 1900 */
+
+  /* Небо */
+  .sky {
+    display: grid;
+    place-items: center;
+    min-height: max(360px, 39.4cqw);
+    padding: var(--space-5) var(--gutter);
+    background: url('/images/english/sky.jpg') center / cover no-repeat;
+    text-align: center;
+  }
+  .sky p {
+    max-width: 24em;
+    font-size: var(--fs-h3);
+    line-height: var(--lh-heading);
+    text-shadow: 0 1px 12px color-mix(in srgb, var(--c-navy) 35%, transparent);
+  }
+
+  /* Eng */
+  .eng { position: relative; z-index: 1; padding: 0 var(--gutter) var(--space-4); margin-top: -12%; }
+  .eng img { width: min(100%, 1428px); margin-inline: auto; }
+
+  @media (min-width: 960px) {
+    .hero { min-height: 100.7cqw; padding-bottom: 9.6cqw; }
+    .hero__head { grid-template-columns: auto 1fr; column-gap: var(--space-4); align-items: start; }
+    /* Тексты уменьшаются вместе с картинками (иначе на 960–1400 заголовок наезжает на мальчика); 52 px — с ~1800. */
+    .hero__title { padding-top: 11.3cqw; font-size: min(var(--fs-h1), 2.9cqw); }
+    .hero__n { justify-self: start; width: 35.6cqw; margin: 1.5cqw 0 0; }
+    .hero__boy { position: absolute; left: 0; top: 3cqw; width: 54.6cqw; margin: 0; }
+    .hero__copy { margin-top: 8.6cqw; font-size: min(var(--fs-h1), 3.07cqw); }
+
+    .note__box { width: 100%; margin-left: 0; }
+
+    .sky p { font-size: var(--fs-h2); }
+
+    .eng { padding: 0 0 4.5cqw; margin-top: -8.9cqw; }
+    .eng img { width: 75.2cqw; margin: 0 0 0 14.4cqw; }
+  }
+</style>

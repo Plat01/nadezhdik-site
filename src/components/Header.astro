@@ -1,16 +1,25 @@
 ---
 // Шапка новых страниц: маскот-ссылка на главную, соцсети, телефон, бургер-меню (как в T450 на главной).
+// Лендинги направлений (tone="navy") ставят свой логотип вместо маскота и растягиваются на широкий контейнер.
 import { site, nav } from '../data/site';
 
-interface Props {
-  tone?: 'orange' | 'blue' | 'ink';
+export interface HeaderLogo {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
 }
-const { tone = 'orange' } = Astro.props;
+interface Props {
+  tone?: 'orange' | 'blue' | 'ink' | 'navy';
+  logo?: HeaderLogo;
+  wide?: boolean;
+}
+const { tone = 'orange', logo, wide = false } = Astro.props;
 ---
 <header class:list={['header', `header--${tone}`]}>
-  <div class="container header__bar">
-    <a class="header__logo" href="/" aria-label={`${site.name} — на главную`}>
-      <img src="/brand/mascot.svg" alt="" width="56" height="56" />
+  <div class:list={['container', { 'container--wide': wide }, 'header__bar']}>
+    <a class:list={['header__logo', { 'header__logo--custom': logo }]} href="/" aria-label={`${site.name} — на главную`}>
+      {logo ? <img src={logo.src} alt={logo.alt} width={logo.width} height={logo.height} /> : <img src="/brand/mascot.svg" alt="" width="56" height="56" />}
     </a>
     <div class="header__actions">
       {site.socials.map((s) => (
@@ -51,19 +60,27 @@ const { tone = 'orange' } = Astro.props;
 </script>
 
 <style>
-  .header { color: var(--c-cream); }
+  .header { --header-accent: var(--c-cream); color: var(--c-cream); }
   .header--orange { background: var(--c-orange); }
   .header--blue { background: var(--c-blue); }
   .header--ink { background: var(--c-ink); }
+  .header--navy { --header-accent: var(--c-red); background: var(--c-navy); }
   .header__bar { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); padding-block: 20px; }
   .header__logo img { width: clamp(44px, 6vw, 56px); height: auto; }
+  .header__logo--custom img { width: clamp(150px, 29.7vw, 565px); } /* 565 px на макете шириной 1900 */
+  .header--navy .header__bar { padding-block: clamp(16px, 3.6vw, 68px) 0; }
+  /* Макет English page (1900): иконки 55 px, телефон и бургер отнесены от соцсетей, правый край на 1534 px. */
+  .header--navy .header__actions { margin-right: clamp(0px, 5vw, 96px); }
+  .header--navy .header__social img { width: clamp(34px, 2.9vw, 55px); }
+  .header--navy .header__phone { margin-left: clamp(8px, 10.5vw, 200px); }
+  .header--navy .header__phone svg { width: clamp(30px, 2.9vw, 55px); }
   .header__actions { display: flex; align-items: center; gap: clamp(10px, 2vw, 16px); }
   .header__social img { width: clamp(34px, 4vw, 44px); height: auto; transition: transform 0.2s ease; }
   .header__social:hover img { transform: rotate(var(--tilt)) scale(1.08); }
-  .header__phone { color: var(--c-cream); margin-left: clamp(8px, 3vw, 40px); }
+  .header__phone { color: var(--header-accent); margin-left: clamp(8px, 3vw, 40px); }
   .header__phone svg { width: clamp(30px, 4vw, 44px); height: auto; }
   .header__burger { display: grid; gap: 7px; width: 46px; padding: 6px 0; background: none; border: 0; cursor: pointer; }
-  .header__burger span { display: block; height: 7px; background: var(--c-cream); }
+  .header__burger span { display: block; height: 7px; background: var(--header-accent); }
 
   .menu {
     position: fixed;

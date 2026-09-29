@@ -42,6 +42,7 @@ a { color: inherit; }
   width: min(100% - 2 * var(--gutter), var(--container));
   margin-inline: auto;
 }
+.container--wide { width: min(100% - 2 * var(--gutter), var(--container-wide)); }
 
 .visually-hidden {
   position: absolute !important;

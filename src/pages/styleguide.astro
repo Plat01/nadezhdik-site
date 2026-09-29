@@ -15,6 +15,7 @@ import LeadForm from '../components/LeadForm.astro';
 const palette = [
   ['--c-orange', '#ff532c'], ['--c-blue', '#0091cf'], ['--c-cream', '#e1e1c2'], ['--c-ink', '#2a2a2b'],
   ['--c-orange-soft', '#ff8562'], ['--c-navy', '#20234e'], ['--c-yellow', '#f7c427'], ['--c-black', '#000'],
+  ['--c-red', '#c22127'], ['--c-white', '#fff'],
 ];
 const img = (name: string) => `/tilda/img/${name}`;
 ---
@@ -51,6 +52,7 @@ const img = (name: string) => `/tilda/img/${name}`;
       <Heading as="p" size="h4">H4 22 — Для детей от 2 до 11 лет</Heading>
       <p class="lead-text">Lead 20 — Montserrat Alternates. Опыт разных школ в сочетании с накопленными знаниями тренерского штаба.</p>
       <p>Body 16 — Футбол — самый популярный вид спорта в мире. Посредством развития футбола в нашем городе мы делаем его доступным.</p>
+      <p class="accent-text" lang="en">Accent — Sigmar: Welcome dear friend (English N club, только латиница)</p>
     </div>
   </Section>
 
@@ -119,6 +121,7 @@ const img = (name: string) => `/tilda/img/${name}`;
   .swatch { display: block; height: 80px; border: 1px solid color-mix(in srgb, var(--c-cream) 30%, transparent); }
   .type { display: grid; gap: var(--space-2); margin-top: var(--space-3); }
   .lead-text { font-size: var(--fs-lead); }
+  .accent-text { font-family: var(--font-accent); font-size: var(--fs-h3); text-transform: uppercase; color: var(--c-red); }
   .row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-4); }
   :global(.mt) { margin-top: var(--space-4); }
 </style>

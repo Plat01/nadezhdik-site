@@ -5,11 +5,12 @@
 
 ## Две части сайта
 
-- **Старые страницы** (`public/index.html`, `public/{english,school,dance,football}/index.html`) — экспорт Tilda
+- **Старые страницы** (`public/index.html`, `public/{school,dance,football}/index.html`) — экспорт Tilda
   (Zero Block: абсолютные координаты на 5 брейкпоинтах). Ресурсы — в `public/tilda/`. Не переверстывать и не
   копировать их разметку. Правки: тексты/ссылки прямо в HTML; стили — только в `public/assets/legacy-overrides.css`
   с селектором `#rec…` и комментарием «страница, блок». Страницу, которой нужна серьёзная переделка, пересобираем
-  целиком на компонентах в `src/pages/` и удаляем её HTML из `public/`.
+  целиком на компонентах в `src/pages/` и удаляем её HTML из `public/` (и добавляем в `REBUILT` в
+  `scripts/tilda_export.py`). Так уже пересобрана `/english/`.
 - **Новые страницы** — `src/pages/*.astro` на `src/layouts/Base.astro` и компонентах из `src/components/`.
   Шаблоны секций — на `/styleguide` (`src/pages/styleguide.astro`).
 

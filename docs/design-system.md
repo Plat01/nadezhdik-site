@@ -15,9 +15,10 @@ http://localhost:4321/styleguide/). Код: `src/styles/tokens.css`, `src/compon
 |---|---|---|
 | Цвета | `--c-orange` #ff532c, `--c-blue` #0091cf, `--c-cream` #e1e1c2, `--c-ink` #2a2a2b | фоны секций, текст, плашки |
 | Доп. цвета | `--c-orange-soft`, `--c-navy`, `--c-yellow`, `--c-yellow-deep`, `--c-black` | редкие акценты, иконки |
-| Шрифты | `--font-display` (Impact), `--font-text` (Montserrat Alternates 500) | заголовки и кнопки / текст |
+| English N club | `--c-red` #c22127, `--c-white`, фон `--c-navy` | только лендинг `/english/` |
+| Шрифты | `--font-display` (Impact), `--font-text` (Montserrat Alternates 500), `--font-accent` (Sigmar, только латиница) | заголовки и кнопки / текст / надписи English N club |
 | Кегли | `--fs-hero` 86, `--fs-h1` 52, `--fs-h2` 36, `--fs-h3` 31, `--fs-h4` 22, `--fs-lead` 20, `--fs-body` 16, `--fs-small` 14 | значения для десктопа, на мобильных меньше через `clamp` |
-| Отступы | `--space-1…6` (8, 16, 24, 40, 60, 60–120), `--gutter` 20, `--container` 1160 | |
+| Отступы | `--space-1…6` (8, 16, 24, 40, 60, 60–120), `--gutter` 20, `--container` 1160, `--container-wide` 1360 (`.container--wide`) | широкий — для лендингов по макетам 1900 |
 | Приёмы | `--tilt` −4°, `--tilt-strong` −8°, `--rule` (линия-разделитель) | наклон плашек и кнопок |
 
 Основной текст — кремовый на цветном фоне. Тёмный текст (`--c-ink`) — на кремовых плашках и как второй
@@ -28,8 +29,8 @@ http://localhost:4321/styleguide/). Код: `src/styles/tokens.css`, `src/compon
 | Компонент | Назначение |
 |---|---|
 | `Base` (layout) | `<head>`, SEO/OG, Метрика, шапка и подвал |
-| `Header` | маскот → главная, VK, Telegram, телефон, бургер-меню (`nav` из `src/data/site.ts`) |
-| `Footer` | оранжевое полотно с надписью НАДЕЖДИК и хвостиком пузыря, голубая полоса: © / маскот / телефон |
+| `Header` | маскот → главная, VK, Telegram, телефон, бургер-меню (`nav` из `src/data/site.ts`); `tone="navy"` + `logo` + `wide` — шапка лендинга направления (свой логотип, красные телефон и бургер) |
+| `Footer` | оранжевое полотно с надписью НАДЕЖДИК и хвостиком пузыря, голубая полоса: © / маскот / телефон; `variant="short"` — только голубая полоса с косым верхом на тёмно-синем |
 | `Section` | полноширинная секция: `tone` orange/blue/ink/cream, `pad` none/sm/md/lg |
 | `Heading` | заголовок Impact: `as` (тег), `size` (hero…h4), `upper`, `align`, `tone` |
 | `Sticker` | наклонная плашка: `bg`, `color`, `accent` (для `<span class="accent">`), `size`, `tilt`, `tail` |

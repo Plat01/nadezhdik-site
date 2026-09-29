@@ -1,16 +1,23 @@
 ---
 // Подвал как на главной: оранжевое полотно с надписью НАДЕЖДИК и «хвостиком» пузыря, голубая полоса с маскотом и телефоном.
+// variant="short" (лендинги направлений) — только голубая полоса с косым верхом и «хвостиком» на тёмно-синем фоне.
 import { site } from '../data/site';
 
+interface Props {
+  variant?: 'full' | 'short';
+}
+const { variant = 'full' } = Astro.props;
 const year = new Date().getFullYear();
 ---
-<footer class="footer">
-  <div class="footer__top">
-    <div class="container">
-      <slot />
-      <img class="footer__wordmark" src="/brand/wordmark.svg" alt={site.name} width="1730" height="631" loading="lazy" />
+<footer class:list={['footer', `footer--${variant}`]}>
+  {variant === 'full' && (
+    <div class="footer__top">
+      <div class="container">
+        <slot />
+        <img class="footer__wordmark" src="/brand/wordmark.svg" alt={site.name} width="1730" height="631" loading="lazy" />
+      </div>
     </div>
-  </div>
+  )}
   <div class="footer__bottom container">
     <a class="footer__credit" href={site.credit.href} target="_blank" rel="noopener">
       <img src={site.credit.image} alt={site.credit.label} loading="lazy" />
@@ -55,6 +62,30 @@ const year = new Date().getFullYear();
   .footer__legal { margin: 0; font-size: var(--fs-body); order: 3; }
   .footer__mascot { width: clamp(140px, 20vw, 240px); margin-top: var(--space-4); }
   .footer__phone { font-size: var(--fs-h2); text-decoration: none; white-space: nowrap; }
+
+  /* Короткий: косой верх полосы с «хвостиком» пузыря (макет English page, 1900 px: перепад 304 px). */
+  .footer--short {
+    --slope: clamp(70px, 16vw, 304px);
+    background: var(--c-navy);
+  }
+  .footer--short .footer__bottom {
+    width: 100%;
+    max-width: none;
+    padding-top: calc(var(--slope) + var(--space-3));
+    padding-inline: max(var(--gutter), (100% - var(--container)) / 2);
+    background: var(--c-blue);
+    clip-path: polygon(
+      0 var(--slope),
+      40% calc(var(--slope) * 0.6),
+      40% calc(var(--slope) * 0.87),
+      44.7% calc(var(--slope) * 0.55),
+      100% 0,
+      100% 100%, 0 100%
+    );
+  }
+  .footer--short .footer__credit { top: calc(var(--slope) * 0.28); right: auto; left: 59%; width: clamp(130px, 21vw, 410px); transform: rotate(var(--tilt-strong)); }
+  .footer--short .footer__mascot { margin-top: 0; }
+
   @media (min-width: 960px) {
     .footer__bottom { grid-template-columns: 1fr auto 1fr; align-items: end; text-align: start; }
     .footer__legal { order: 0; justify-self: start; font-size: var(--fs-h4); }

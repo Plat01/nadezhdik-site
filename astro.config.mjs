@@ -5,7 +5,7 @@ const site = 'https://nadezhdik.ru';
 
 // Старые страницы из Tilda лежат в public/ и не видны Astro — добавляем их в sitemap вручную.
 // /dance/ и /football/ пока пустые (только заголовок) — вернуть сюда, когда появится контент.
-const legacyPages = ['/', '/english/', '/school/'].map((p) => site + p);
+const legacyPages = ['/', '/school/'].map((p) => site + p);
 
 export default defineConfig({
   site,
