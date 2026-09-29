@@ -56,6 +56,7 @@
   --fs-lead: clamp(1.0625rem, 1rem + 0.4vw, 1.25rem);
   --fs-body: clamp(0.9375rem, 0.9rem + 0.2vw, 1rem);
   --fs-small: 0.875rem;
+  --fs-phone: 2.6875rem;    /* 43 — телефон в подвале главной */
 
   --lh-display: 1;
   --lh-heading: 1.15;
