@@ -179,3 +179,33 @@
     width: 26vw;
   }
 }
+
+/*
+ * Главная и School: кнопки и иконки увеличиваются при наведении, как иконки .nd-ask выше.
+ * Шапка (rec1072903976, rec1179426471) — соцсети, телефон, меню; подвал (rec1072865236, rec1179426546) — логотип
+ * студии; карточки направлений (rec1077498656, rec1077539861, rec1120069051, rec11794264{76,81,86}) — плашки
+ * «Узнать больше» (group_10_1.svg). Масштабируем .tn-atom, а не .tn-elem: на .tn-elem Tilda вешает transform
+ * анимации появления (t-animate).
+ */
+:is(#rec1072903976, #rec1179426471, #rec1072865236, #rec1179426546) .tn-elem:is([data-elem-type="image"], [data-elem-type="vector"]) a.tn-atom,
+:is(#rec1077498656, #rec1077539861, #rec1120069051, #rec1179426476, #rec1179426481, #rec1179426486) .tn-elem:has(img[src$="__group_10_1.svg"]) .tn-atom,
+:is(#rec2156907131, #rec1179426516, #rec1179426521, #rec1179426526, #rec1179426531, #rec1179426536) .tn-elem .tn-atom {
+  transition: transform 0.2s ease-in-out;
+}
+@media (hover: hover) {
+  :is(#rec1072903976, #rec1179426471, #rec1072865236, #rec1179426546) .tn-elem:is([data-elem-type="image"], [data-elem-type="vector"]) a.tn-atom:hover,
+  :is(#rec1077498656, #rec1077539861, #rec1120069051, #rec1179426476, #rec1179426481, #rec1179426486) .tn-elem:has(img[src$="__group_10_1.svg"]) .tn-atom:hover {
+    transform: scale(1.06);
+  }
+
+  /*
+   * Главная, «Официальные документы» (rec2156907131), и School, документы (rec11794265{16,21,26,31,36}): папка
+   * и подпись к ней — разные элементы с одной ссылкой, растут вместе при наведении на любой из них.
+   * Пары (папка, подпись) одинаковые во всех блоках.
+   */
+  :is(#rec2156907131, #rec1179426516, #rec1179426521, #rec1179426526, #rec1179426531, #rec1179426536) .t396__artboard:has(:is([data-elem-id="1748808976315"], [data-elem-id="1748808990171"]):hover) :is([data-elem-id="1748808976315"], [data-elem-id="1748808990171"]) .tn-atom,
+  :is(#rec2156907131, #rec1179426516, #rec1179426521, #rec1179426526, #rec1179426531, #rec1179426536) .t396__artboard:has(:is([data-elem-id="1749134060951"], [data-elem-id="1749134060948"]):hover) :is([data-elem-id="1749134060951"], [data-elem-id="1749134060948"]) .tn-atom,
+  :is(#rec2156907131, #rec1179426516, #rec1179426521, #rec1179426526, #rec1179426531, #rec1179426536) .t396__artboard:has(:is([data-elem-id="1748809025339"], [data-elem-id="1748809025342"]):hover) :is([data-elem-id="1748809025339"], [data-elem-id="1748809025342"]) .tn-atom {
+    transform: scale(1.06);
+  }
+}

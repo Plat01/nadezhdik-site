@@ -59,6 +59,8 @@ const year = new Date().getFullYear();
     text-align: center;
   }
   .footer__credit { position: absolute; top: calc(var(--slope) * -0.55); right: 0; width: clamp(180px, 34vw, 410px); transform: rotate(-8deg); }
+  .footer__credit img { transition: transform 0.2s ease; }
+  .footer__credit:hover img { transform: scale(1.06); }
   .footer__legal { margin: 0; font-size: var(--fs-body); order: 3; }
   .footer__mascot { width: clamp(140px, 20vw, 240px); margin-top: var(--space-4); }
   .footer__phone { font-size: var(--fs-h2); text-decoration: none; white-space: nowrap; }

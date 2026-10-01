@@ -146,7 +146,8 @@ const { tone = 'orange', logo, wide = false } = Astro.props;
     color: var(--header-accent);
     cursor: pointer;
   }
-  .header__phone svg, .header__burger svg { display: block; width: 100%; height: auto; }
+  .header__phone svg, .header__burger svg { display: block; width: 100%; height: auto; transition: transform 0.2s ease; }
+  .header__phone:hover svg, .header__burger:hover svg { transform: scale(1.06); }
 
   .menu {
     position: fixed;
