@@ -18,31 +18,39 @@ const { tone = 'orange', logo, wide = false } = Astro.props;
 ---
 <header class:list={['header', `header--${tone}`]}>
   <div class:list={['container', { 'container--wide': wide }, 'header__bar']}>
-    <a class:list={['header__logo', { 'header__logo--custom': logo }]} href="/" aria-label={`${site.name} — на главную`}>
+    <a
+      class:list={['header__logo', { 'header__logo--custom': logo }]}
+      href="/"
+      aria-label={`${site.name} — на главную`}
+      style={logo && `--logo-r: ${logo.height / logo.width}`}
+    >
       {logo ? <img src={logo.src} alt={logo.alt} width={logo.width} height={logo.height} /> : <img src="/brand/mascot.svg" alt="" width="56" height="56" />}
     </a>
-    <div class="header__actions">
+  </div>
+  <div class="header__actions">
+    <div class="header__socials">
       {site.socials.map((s) => (
         <a class="header__social" href={s.href} target="_blank" rel="noopener" aria-label={s.label}>
           <img src={s.icon} alt="" width="44" height="44" />
         </a>
       ))}
-      <a class="header__phone" href={site.phone.href} aria-label={`Позвонить: ${site.phone.label}`}>
-        <svg viewBox="0 0 86 92" width="40" height="43" aria-hidden="true"><path fill="currentColor" d="M82.5 69.5C88 75.5 85.53 78.36 82 82.61l-4.35 3.78C65.3 94.72 46 97.26 19.5 68.13-7 39-1.4 18.01 8.55 6.96l4.38-3.81c4.7-2.91 7.07-4.85 11.57 0s6.5 8.85 8.78 13.21c2.27 4.36 1.66 10.72-2.79 13.7l-4.5 3.92c-4.52 3.92-6.82 8.5 4.5 21.52 11.32 13.02 18.28 13.8 22.8 9.89l2.16-1.88 1.78-2.14c3.53-4.25 10.61-3.38 14.2-1.12 3.58 2.25 5.58 3.25 11.08 9.25Z"/></svg>
-      </a>
-      <button class="header__burger" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Меню">
-        <span></span><span></span><span></span>
-      </button>
     </div>
+    <a class="header__phone" href={site.phone.href} aria-label={`Позвонить: ${site.phone.label}`}>
+      <svg viewBox="0 0 86 92" width="44" height="47" aria-hidden="true"><path fill="currentColor" d="M82.5 69.5C88 75.5 85.53 78.36 82 82.61l-4.35 3.78C65.3 94.72 46 97.26 19.5 68.13-7 39-1.4 18.01 8.55 6.96l4.38-3.81c4.7-2.91 7.07-4.85 11.57 0s6.5 8.85 8.78 13.21c2.27 4.36 1.66 10.72-2.79 13.7l-4.5 3.92c-4.52 3.92-6.82 8.5 4.5 21.52 11.32 13.02 18.28 13.8 22.8 9.89l2.16-1.88 1.78-2.14c3.53-4.25 10.61-3.38 14.2-1.12 3.58 2.25 5.58 3.25 11.08 9.25Z"/></svg>
+    </a>
+    <button class="header__burger" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Меню">
+      <svg viewBox="0 0 44 34.6" width="44" height="35" aria-hidden="true"><path fill="currentColor" d="M0 0h44v7.26H0zM0 13.67h44v7.26H0zM0 27.34h44v7.26H0z"/></svg>
+    </button>
   </div>
-  <nav id="site-menu" class="menu" hidden>
-    <button class="menu__close" type="button" aria-label="Закрыть меню">×</button>
-    <ul>
-      {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
-    </ul>
-    <a class="menu__phone" href={site.phone.href}>{site.phone.label}</a>
-  </nav>
 </header>
+<nav id="site-menu" class="menu" hidden>
+  <button class="menu__close" type="button" aria-label="Закрыть меню">×</button>
+  <ul>
+    {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+  </ul>
+  <a class="menu__phone" href={site.phone.href}>{site.phone.label}</a>
+</nav>
+
 
 <script>
   const burger = document.querySelector<HTMLButtonElement>('.header__burger');
@@ -60,27 +68,85 @@ const { tone = 'orange', logo, wide = false } = Astro.props;
 </script>
 
 <style>
-  .header { --header-accent: var(--c-cream); color: var(--c-cream); }
+  /*
+   * Соцсети, телефон и бургер стоят ровно там же, где в Zero Block главной и School (rec1072903976),
+   * чтобы при переходе между старыми и новыми страницами кнопки не прыгали. Координаты — в пикселях сетки
+   * Tilda шириной --grid; --u — один такой пиксель: ниже 960 сетка, как в Tilda, тянется на всю ширину окна,
+   * от 960 — фиксированная и по центру. Меняете здесь — проверьте /, /school/ и /english/ на всех ширинах.
+   */
+  .header {
+    --header-accent: var(--c-cream);
+    --u: calc(100cqw / var(--grid));
+    --grid: 320;
+    --soc-top: 33; --soc-left: 10; --soc: 36; --soc-gap: 12;
+    --tel-top: 36; --tel-left: 225; --tel: 31;
+    --menu-top: 38; --menu-left: 275; --menu: 35;
+    --row-mid: 51;  /* середина ряда кнопок — по ней выравнивается логотип */
+    --row-end: 69;  /* низ ряда кнопок */
+    position: relative;
+    container-type: inline-size;
+    color: var(--c-cream);
+  }
+  @media (min-width: 480px) {
+    .header {
+      --grid: 480;
+      --soc-top: 83; --soc-left: 243; --soc: 26; --soc-gap: 9;
+      --tel-top: 83; --tel-left: 405; --tel: 25;
+      --menu-top: 88; --menu-left: 445; --menu: 25;
+      --row-mid: 96; --row-end: 110;
+    }
+  }
+  @media (min-width: 640px) {
+    .header {
+      --grid: 640;
+      --soc-top: 71; --soc-left: 319; --soc: 44; --soc-gap: 16;
+      --tel-top: 72; --tel-left: 516; --tel: 44;
+      --menu-top: 80; --menu-left: 586; --menu: 44;
+      --row-mid: 93; --row-end: 119;
+    }
+  }
+  @media (min-width: 960px) { .header { --u: 1px; --grid: 960; --soc-left: 509; --tel-left: 836; --menu-left: 906; } }
+  @media (min-width: 1200px) { .header { --grid: 1200; --soc-left: 740; --tel-left: 1057; --menu-left: 1137; } }
+
   .header--orange { background: var(--c-orange); }
   .header--blue { background: var(--c-blue); }
   .header--ink { background: var(--c-ink); }
   .header--navy { --header-accent: var(--c-red); background: var(--c-navy); }
-  .header__bar { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); padding-block: 20px; }
-  .header__logo img { width: clamp(44px, 6vw, 56px); height: auto; }
-  .header__logo--custom img { width: clamp(150px, 29.7vw, 565px); } /* 565 px на макете шириной 1900 */
-  .header--navy .header__bar { padding-block: clamp(16px, 3.6vw, 68px) 0; }
-  /* Макет English page (1900): иконки 55 px, телефон и бургер отнесены от соцсетей, правый край на 1534 px. */
-  .header--navy .header__actions { margin-right: clamp(0px, 5vw, 96px); }
-  .header--navy .header__social img { width: clamp(34px, 2.9vw, 55px); }
-  .header--navy .header__phone { margin-left: clamp(8px, 10.5vw, 200px); }
-  .header--navy .header__phone svg { width: clamp(30px, 2.9vw, 55px); }
-  .header__actions { display: flex; align-items: center; gap: clamp(10px, 2vw, 16px); }
-  .header__social img { width: clamp(34px, 4vw, 44px); height: auto; transition: transform 0.2s ease; }
+
+  .header__bar { display: flex; align-items: flex-start; position: relative; min-height: calc(var(--row-end) * var(--u) + var(--space-2)); }
+  .header__logo {
+    --logo-w: clamp(44px, 6vw, 56px);
+    --logo-r: 1;
+    /* Логотип по центру ряда кнопок, но не выше --logo-min-top. */
+    margin-top: max(var(--logo-min-top, 0px), var(--row-mid) * var(--u) - var(--logo-w) * var(--logo-r) / 2);
+  }
+  .header__logo img { display: block; width: var(--logo-w); height: auto; }
+  .header__logo--custom { --logo-w: clamp(150px, 29.7vw, 565px); } /* 565 px на макете шириной 1900 */
+  .header--navy .header__bar { padding-bottom: 0; }
+  .header--navy .header__logo { --logo-min-top: clamp(16px, 3.6vw, 68px); }
+  /* До 480 соцсети стоят слева (как на главной), поэтому логотип — по центру между ними и телефоном. */
+  @media (max-width: 479px) {
+    .header__logo { position: absolute; top: calc(var(--row-mid) * var(--u)); left: 50%; margin: 0; transform: translate(-50%, -50%); }
+    .header__logo--custom { --logo-w: calc(110 * var(--u)); }
+  }
+
+  .header__actions { position: absolute; top: 0; left: calc(50% - var(--grid) * var(--u) / 2); width: calc(var(--grid) * var(--u)); }
+  .header__socials { position: absolute; top: calc(var(--soc-top) * var(--u)); left: calc(var(--soc-left) * var(--u)); display: flex; gap: calc(var(--soc-gap) * var(--u)); }
+  .header__social img { display: block; width: calc(var(--soc) * var(--u)); height: auto; transition: transform 0.2s ease; }
   .header__social:hover img { transform: rotate(var(--tilt)) scale(1.08); }
-  .header__phone { color: var(--header-accent); margin-left: clamp(8px, 3vw, 40px); }
-  .header__phone svg { width: clamp(30px, 4vw, 44px); height: auto; }
-  .header__burger { display: grid; gap: 7px; width: 46px; padding: 6px 0; background: none; border: 0; cursor: pointer; }
-  .header__burger span { display: block; height: 7px; background: var(--header-accent); }
+  .header__phone { position: absolute; top: calc(var(--tel-top) * var(--u)); left: calc(var(--tel-left) * var(--u)); width: calc(var(--tel) * var(--u)); color: var(--header-accent); }
+  .header__burger {
+    position: absolute;
+    top: calc(var(--menu-top) * var(--u));
+    left: calc(var(--menu-left) * var(--u));
+    width: calc(var(--menu) * var(--u));
+    padding: 0;
+    background: none;
+    border: 0;
+    color: var(--header-accent);
+    cursor: pointer;
+  }
+  .header__phone svg, .header__burger svg { display: block; width: 100%; height: auto; }
 
   .menu {
     position: fixed;
