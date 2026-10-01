@@ -8,3 +8,174 @@
 #rec1072903976 .tn-elem__10729039761748809229407 .tn-atom {
   background-color: #ff532d !important;
 }
+
+/*
+ * Главная, Zero Block rec2156907131 («Официальные документы»): две папки по центру, подписи «ООО»/«АНО» — на папках.
+ * Tilda ставит left/top инлайном, поэтому !important. Ниже 960px блок масштабируется (zoom = ширина окна / ширина
+ * макета 320/480/640), поэтому там координаты — в пикселях макета, а высота артборда — в vw.
+ * Тело папки в SVG (186×148) начинается с y=18, высота 130 — подписи центрируются по нему.
+ */
+#rec2156907131 .tn-elem[data-elem-id="1748808976315"],
+#rec2156907131 .tn-elem[data-elem-id="1749134060951"] {
+  top: 3px !important;
+}
+#rec2156907131 .tn-elem[data-elem-id="1748808976315"],
+#rec2156907131 .tn-elem[data-elem-id="1748808990171"] {
+  left: calc(50% - 600px + 380px) !important;
+}
+#rec2156907131 .tn-elem[data-elem-id="1749134060951"],
+#rec2156907131 .tn-elem[data-elem-id="1749134060948"] {
+  left: calc(50% - 600px + 680px) !important;
+}
+#rec2156907131 .tn-elem[data-elem-id="1748808990171"],
+#rec2156907131 .tn-elem[data-elem-id="1749134060948"] {
+  display: block !important;
+  top: 17px !important;
+  width: 140px !important;
+  height: 98px !important;
+}
+#rec2156907131 .tn-elem[data-elem-id="1748808990171"] .tn-atom,
+#rec2156907131 .tn-elem[data-elem-id="1749134060948"] .tn-atom {
+  display: block !important;
+  height: 100%;
+  color: #ff532c !important;
+  font-size: 30px !important;
+  line-height: 1 !important;
+}
+#rec2156907131 .tn-elem[data-elem-id="1748808990171"] .tn-atom a,
+#rec2156907131 .tn-elem[data-elem-id="1749134060948"] .tn-atom a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+@media screen and (max-width: 1199px) {
+  #rec2156907131 .tn-elem[data-elem-id="1748808976315"],
+  #rec2156907131 .tn-elem[data-elem-id="1748808990171"] {
+    left: calc(50% - 480px + 260px) !important;
+  }
+  #rec2156907131 .tn-elem[data-elem-id="1749134060951"],
+  #rec2156907131 .tn-elem[data-elem-id="1749134060948"] {
+    left: calc(50% - 480px + 560px) !important;
+  }
+}
+@media screen and (max-width: 959px) {
+  #rec2156907131 .t396__artboard,
+  #rec2156907131 .t396__artboard.t396__artboard_scale,
+  #rec2156907131 .t396__artboard .t396__carrier,
+  #rec2156907131 .t396__artboard .t396__filter {
+    height: calc(100vw * 74 / 640) !important;
+  }
+  #rec2156907131 .tn-elem[data-elem-id="1748808976315"],
+  #rec2156907131 .tn-elem[data-elem-id="1749134060951"] {
+    top: 0 !important;
+  }
+  #rec2156907131 .tn-elem[data-elem-id="1748808976315"],
+  #rec2156907131 .tn-elem[data-elem-id="1748808990171"] {
+    left: 200px !important;
+  }
+  #rec2156907131 .tn-elem[data-elem-id="1749134060951"],
+  #rec2156907131 .tn-elem[data-elem-id="1749134060948"] {
+    left: 360px !important;
+  }
+  #rec2156907131 .tn-elem[data-elem-id="1748808990171"],
+  #rec2156907131 .tn-elem[data-elem-id="1749134060948"] {
+    top: 8px !important;
+    width: 80px !important;
+    height: 56px !important;
+  }
+  #rec2156907131 .tn-elem[data-elem-id="1748808990171"] .tn-atom,
+  #rec2156907131 .tn-elem[data-elem-id="1749134060948"] .tn-atom {
+    font-size: 18px !important;
+  }
+}
+@media screen and (max-width: 639px) {
+  #rec2156907131 .t396__artboard,
+  #rec2156907131 .t396__artboard.t396__artboard_scale,
+  #rec2156907131 .t396__artboard .t396__carrier,
+  #rec2156907131 .t396__artboard .t396__filter {
+    height: calc(100vw * 74 / 480) !important;
+  }
+  #rec2156907131 .tn-elem[data-elem-id="1748808976315"],
+  #rec2156907131 .tn-elem[data-elem-id="1748808990171"] {
+    left: 120px !important;
+  }
+  #rec2156907131 .tn-elem[data-elem-id="1749134060951"],
+  #rec2156907131 .tn-elem[data-elem-id="1749134060948"] {
+    left: 280px !important;
+  }
+}
+@media screen and (max-width: 479px) {
+  #rec2156907131 .t396__artboard,
+  #rec2156907131 .t396__artboard.t396__artboard_scale,
+  #rec2156907131 .t396__artboard .t396__carrier,
+  #rec2156907131 .t396__artboard .t396__filter {
+    height: calc(100vw * 72 / 320) !important;
+  }
+  #rec2156907131 .tn-elem[data-elem-id="1748808976315"],
+  #rec2156907131 .tn-elem[data-elem-id="1748808990171"] {
+    left: 61px !important;
+  }
+  #rec2156907131 .tn-elem[data-elem-id="1749134060951"],
+  #rec2156907131 .tn-elem[data-elem-id="1749134060948"] {
+    left: 181px !important;
+  }
+  #rec2156907131 .tn-elem[data-elem-id="1748808990171"],
+  #rec2156907131 .tn-elem[data-elem-id="1749134060948"] {
+    width: 78px !important;
+    height: 54px !important;
+  }
+}
+
+/*
+ * Главная, rec2217370231 («Задайте нам вопрос»): иконки почты и Telegram под заголовком (блок .nd-ask добавлен в HTML
+ * после Zero Block, в обычном потоке). Центры иконок совпадают с центрами папок из rec2156907131 выше.
+ */
+#rec2217370231 .nd-ask {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  gap: 150px;
+  padding: 30px 0 20px;
+  background-color: #ff532c;
+}
+#rec2217370231 .nd-ask__link {
+  display: block;
+  width: 150px;
+  transition: transform 0.2s ease-in-out;
+}
+#rec2217370231 .nd-ask__link:hover {
+  transform: scale(1.06);
+}
+#rec2217370231 .nd-ask__link img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+@media screen and (max-width: 959px) {
+  #rec2217370231 .nd-ask {
+    gap: 11.5vw;
+    padding: 4vw 0 3vw;
+  }
+  #rec2217370231 .nd-ask__link {
+    width: 13.5vw;
+  }
+}
+@media screen and (max-width: 639px) {
+  #rec2217370231 .nd-ask {
+    gap: 15.3vw;
+  }
+  #rec2217370231 .nd-ask__link {
+    width: 18vw;
+  }
+}
+@media screen and (max-width: 479px) {
+  #rec2217370231 .nd-ask {
+    gap: 11.5vw;
+  }
+  #rec2217370231 .nd-ask__link {
+    width: 26vw;
+  }
+}
