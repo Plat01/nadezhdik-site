@@ -67,42 +67,47 @@ const year = new Date().getFullYear();
    * Короткий: только голубая полоса на тёмно-синем фоне. Край с «хвостиком» и положение элементов — как в подвале
    * главной (Zero Block rec1072865236, фигура rectangle_17.svg): на 320/480/960/1200 — px от левого края сетки
    * по центру, на 640–959 артборд Tilda тянется по ширине окна — там vw (px / 6.4).
+   * Косой край тянется до краёв окна на любой ширине: левый отрезок продолжен с наклоном --sl от точки (--x1, --y1),
+   * правый — с наклоном --s от (--x2, --y2). Если справа линии не хватает высоты, полоса опускается на --lift.
    */
-  .footer--short { background: var(--c-navy); }
+  .footer--short { background: var(--c-navy); container-type: inline-size; }
   .footer--short .footer__bottom {
-    --grid: calc(50% - 160px);
+    --grid: calc(50cqw - 160px);
+    --x1: 100px; --y1: 40px; --tail: 76px; --x2: 139px; --y2: 34px; --sl: 0.21; --s: 0.16;
+    --lift: max(0px, var(--s) * (100cqw - var(--grid) - var(--x2)) - var(--y2));
     display: block;
     width: 100%;
     max-width: none;
-    height: 371px;
+    height: calc(371px + var(--lift));
     padding: 0;
     background: var(--c-blue);
     clip-path: polygon(
-      0 61px, calc(var(--grid) + 100px) 40px, calc(var(--grid) + 100px) 76px,
-      calc(var(--grid) + 139px) 34px, calc(var(--grid) + 349px) 0, 100% 0, 100% 100%, 0 100%
+      0 calc(var(--y1) + var(--lift) + var(--sl) * (var(--grid) + var(--x1))),
+      calc(var(--grid) + var(--x1)) calc(var(--y1) + var(--lift)),
+      calc(var(--grid) + var(--x1)) calc(var(--tail) + var(--lift)),
+      calc(var(--grid) + var(--x2)) calc(var(--y2) + var(--lift)),
+      100% calc(var(--y2) + var(--lift) - var(--s) * (100cqw - var(--grid) - var(--x2))),
+      100% 100%, 0 100%
     );
   }
   .footer--short .footer__bottom > * { position: absolute; margin: 0; }
-  .footer--short .footer__credit { top: 26px; left: calc(var(--grid) + 135px); right: auto; width: 177px; transform: none; }
-  .footer--short .footer__mascot { top: 116px; left: calc(var(--grid) + 96px); width: 120px; }
-  .footer--short .footer__phone { top: 255px; left: 0; right: 0; text-align: center; font-size: calc(var(--fs-phone) * 0.84); line-height: 1; }
-  .footer--short .footer__legal { top: 314px; left: 0; right: 0; text-align: center; font-size: var(--fs-small); line-height: 1; }
+  .footer--short .footer__credit { top: calc(26px + var(--lift)); left: calc(var(--grid) + 135px); right: auto; width: 177px; transform: none; }
+  .footer--short .footer__mascot { top: calc(116px + var(--lift)); left: calc(var(--grid) + 96px); width: 120px; }
+  .footer--short .footer__phone { top: calc(255px + var(--lift)); left: 0; right: 0; text-align: center; font-size: calc(var(--fs-phone) * 0.84); line-height: 1; }
+  .footer--short .footer__legal { top: calc(314px + var(--lift)); left: 0; right: 0; text-align: center; font-size: var(--fs-small); line-height: 1; }
 
   @media (min-width: 480px) {
     .footer--short .footer__bottom {
-      --grid: calc(50% - 240px);
-      height: 442px;
-      clip-path: polygon(
-        0 93px, calc(var(--grid) + 138px) 61px, calc(var(--grid) + 138px) 115px,
-        calc(var(--grid) + 198px) 51px, calc(var(--grid) + 517px) 0, 100% 0, 100% 100%, 0 100%
-      );
+      --grid: calc(50cqw - 240px);
+      --x1: 138px; --y1: 61px; --tail: 115px; --x2: 198px; --y2: 51px; --sl: 0.232;
+      height: calc(442px + var(--lift));
     }
-    .footer--short .footer__credit { top: 36px; left: calc(var(--grid) + 230px); width: 240px; }
-    .footer--short .footer__mascot { top: 108px; left: calc(var(--grid) + 180px); width: 120px; }
-    .footer--short .footer__phone { top: 256px; font-size: var(--fs-phone); }
-    .footer--short .footer__legal { top: 325px; font-size: var(--fs-h4); }
+    .footer--short .footer__credit { top: calc(36px + var(--lift)); left: calc(var(--grid) + 230px); width: 240px; }
+    .footer--short .footer__mascot { top: calc(108px + var(--lift)); left: calc(var(--grid) + 180px); width: 120px; }
+    .footer--short .footer__phone { top: calc(256px + var(--lift)); font-size: var(--fs-phone); }
+    .footer--short .footer__legal { top: calc(325px + var(--lift)); font-size: var(--fs-h4); }
   }
-  @media (min-width: 640px) {
+  @media (min-width: 640px) and (max-width: 959.98px) {
     .footer--short .footer__bottom {
       height: 80.3vw;
       clip-path: polygon(0 17.8vw, 31.9% 11.6vw, 31.9% 22vw, 43.3% 9.8vw, 100% 0, 100% 100%, 0 100%);
@@ -114,34 +119,25 @@ const year = new Date().getFullYear();
   }
   @media (min-width: 960px) {
     .footer--short .footer__bottom {
-      --grid: calc(50% - 480px);
-      display: block;
-      height: 511px;
-      padding: 0;
-      clip-path: polygon(
-        0 182px, calc(var(--grid) + 300px) 119px, calc(var(--grid) + 300px) 225px,
-        calc(var(--grid) + 418px) 100px, calc(var(--grid) + 1044px) 0, 100% 0, 100% 100%, 0 100%
-      );
+      --grid: calc(50cqw - 480px);
+      --x1: 300px; --y1: 119px; --tail: 225px; --x2: 418px; --y2: 100px; --sl: 0.21;
+      height: calc(511px + var(--lift));
     }
-    .footer--short .footer__bottom > * { position: absolute; margin: 0; }
-    .footer--short .footer__credit { top: 47px; left: calc(var(--grid) + 550px); width: 383px; }
-    .footer--short .footer__mascot { top: 204px; left: calc(var(--grid) + 470px); width: 200px; }
-    .footer--short .footer__legal { top: 380px; left: calc(var(--grid) + 10px); right: auto; text-align: start; font-size: var(--fs-h4); }
-    .footer--short .footer__phone { top: 359px; left: auto; right: calc(var(--grid) + 10px); font-size: var(--fs-phone); }
+    .footer--short .footer__credit { top: calc(47px + var(--lift)); left: calc(var(--grid) + 550px); width: 383px; }
+    .footer--short .footer__mascot { top: calc(204px + var(--lift)); left: calc(var(--grid) + 470px); width: 200px; }
+    .footer--short .footer__legal { top: calc(380px + var(--lift)); left: calc(var(--grid) + 10px); right: auto; text-align: start; font-size: var(--fs-h4); }
+    .footer--short .footer__phone { top: calc(359px + var(--lift)); left: auto; right: calc(var(--grid) + 10px); font-size: var(--fs-phone); }
   }
   @media (min-width: 1200px) {
     .footer--short .footer__bottom {
-      --grid: calc(50% - 600px);
-      height: 588px;
-      clip-path: polygon(
-        0 194px, var(--grid) 194px, calc(var(--grid) + 408px) 127px, calc(var(--grid) + 408px) 240px,
-        calc(var(--grid) + 533px) 107px, calc(var(--grid) + 1200px) 0, 100% 0, 100% 100%, 0 100%
-      );
+      --grid: calc(50cqw - 600px);
+      --x1: 408px; --y1: 127px; --tail: 240px; --x2: 533px; --y2: 107px; --sl: 0.164;
+      height: calc(588px + var(--lift));
     }
-    .footer--short .footer__credit { top: 61px; left: calc(var(--grid) + 776px); width: 405px; }
-    .footer--short .footer__mascot { top: 261px; left: calc(var(--grid) + 556px); width: 240px; }
-    .footer--short .footer__legal { top: 467px; left: calc(var(--grid) + 20px); }
-    .footer--short .footer__phone { top: 446px; right: calc(var(--grid) + 20px); }
+    .footer--short .footer__credit { top: calc(61px + var(--lift)); left: calc(var(--grid) + 776px); width: 405px; }
+    .footer--short .footer__mascot { top: calc(261px + var(--lift)); left: calc(var(--grid) + 556px); width: 240px; }
+    .footer--short .footer__legal { top: calc(467px + var(--lift)); left: calc(var(--grid) + 20px); }
+    .footer--short .footer__phone { top: calc(446px + var(--lift)); right: calc(var(--grid) + 20px); }
   }
 
   @media (min-width: 960px) {
