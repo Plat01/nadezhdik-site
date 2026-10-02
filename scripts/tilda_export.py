@@ -43,6 +43,7 @@ DROP_TAGS = [
     re.compile(r"<link rel=\"dns-prefetch\" href=\"https://[a-z]+\.tildacdn\.com\">\s*"),
 ]
 OVERRIDES_LINK = '<link rel="stylesheet" href="/assets/legacy-overrides.css" type="text/css" media="all" />'
+OVERRIDES_SCRIPT = '<script src="/assets/legacy-overrides.js" defer></script>'
 
 
 def load_env() -> dict[str, str]:
@@ -138,6 +139,8 @@ def localize_page(html: str, page: dict, dl: Downloader) -> str:
         html = tag.sub("", html)
     if OVERRIDES_LINK not in html:
         html = html.replace("</head>", f"{OVERRIDES_LINK}\n</head>", 1)
+    if OVERRIDES_SCRIPT not in html:
+        html = html.replace("</head>", f"{OVERRIDES_SCRIPT}\n</head>", 1)
     return html
 
 
