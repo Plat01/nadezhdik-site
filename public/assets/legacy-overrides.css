@@ -197,6 +197,10 @@
   :is(#rec1077498656, #rec1077539861, #rec1120069051, #rec1179426476, #rec1179426481, #rec1179426486) .tn-elem:has(img[src$="__group_10_1.svg"]) .tn-atom:hover {
     transform: scale(1.06);
   }
+  /* Шапка: ВКонтакте и Telegram ещё и наклоняются — как .header__social в src/components/Header.astro (−4deg = --tilt). */
+  :is(#rec1072903976, #rec1179426471) .tn-elem:is([data-elem-id="1748951011918"], [data-elem-id="1748951081190"]) a.tn-atom:hover {
+    transform: rotate(-4deg) scale(1.08);
+  }
 
   /*
    * Главная, «Официальные документы» (rec2156907131), и School, документы (rec11794265{16,21,26,31,36}): папка
